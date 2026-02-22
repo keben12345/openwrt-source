@@ -1255,6 +1255,7 @@ endef
 
 define KernelPackage/usb-net-aqc111
   TITLE:=Support for USB-to-Ethernet Aquantia AQtion 5/2.5GbE
+  DEPENDS:=+kmod-libphy
   KCONFIG:=CONFIG_USB_NET_AQC111
   FILES:=$(LINUX_DIR)/drivers/$(USBNET_DIR)/aqc111.ko
   AUTOLOAD:=$(call AutoProbe,aqc111)
@@ -1860,7 +1861,6 @@ define KernelPackage/usb3
   TITLE:=Support for USB3 controllers
   DEPENDS:= \
 	+kmod-usb-xhci-hcd \
-	+TARGET_airoha_an7581:kmod-usb-xhci-mtk \
 	+TARGET_bcm53xx:kmod-usb-bcma \
 	+TARGET_bcm53xx:kmod-phy-bcm-ns-usb3 \
 	+TARGET_ramips_mt7621:kmod-usb-xhci-mtk \
