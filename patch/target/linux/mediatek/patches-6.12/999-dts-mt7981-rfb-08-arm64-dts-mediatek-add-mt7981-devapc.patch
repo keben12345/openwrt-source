@@ -1,0 +1,24 @@
+From 921e393d23319e4ffb894c617b2e16840251adaf Mon Sep 17 00:00:00 2001
+From: Tim-cy Yang <Tim-cy.Yang@mediatek.com>
+Date: Fri, 20 Mar 2026 16:41:22 +0800
+Subject: [PATCH] arm64: dts: mediatek: add mt7981 device APC
+
+---
+ arch/arm64/boot/dts/mediatek/mt7981b.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+--- a/arch/arm64/boot/dts/mediatek/mt7981b.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt7981b.dtsi
+@@ -746,6 +746,12 @@
+ 			memory-region = <&wmcpu_emi>;
+ 			status = "disabled";
+ 		};
++
++		devapc: devapc@1a110000 {
++			compatible = "mediatek,mt7981-devapc";
++			reg = <0 0x1a110000 0 0x1000>;
++			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++		};
+ 	};
+ 
+ 	thermal-zones {
