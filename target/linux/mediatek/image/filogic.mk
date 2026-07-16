@@ -258,6 +258,31 @@ define Device/cmcc_xr30-nand
 endef
 TARGET_DEVICES += cmcc_xr30-nand
 
+define Device/qihoo_360t7
+  DEVICE_VENDOR := Qihoo
+  DEVICE_MODEL := 360T7
+  DEVICE_VARIANT := (UBI Mod)
+  DEVICE_DTS := mt7981b-qihoo-360t7-ubi
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_DTC_FLAGS := --pad 4096
+  DEVICE_DTS_LOADADDR := 0x43f00000
+  DEVICE_PACKAGES := \
+        kmod-usb3
+  KERNEL_LOADADDR := 0x44000000
+  KERNEL := kernel-bin | gzip
+  KERNEL_INITRAMFS := kernel-bin | lzma | \
+        fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd | pad-to 64k
+  KERNEL_INITRAMFS_SUFFIX := -recovery.itb
+  KERNEL_IN_UBI := 1
+  UBOOTENV_IN_UBI := 1
+  IMAGES := sysupgrade.itb
+  IMAGE_SIZE := $$(shell expr 64 + $$(CONFIG_TARGET_ROOTFS_PARTSIZE))m
+  IMAGE/sysupgrade.itb := append-kernel | \
+        fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-static-with-rootfs | \
+        pad-rootfs | append-metadata
+endef
+TARGET_DEVICES += qihoo_360t7
+
 define Device/openwrt_one
   DEVICE_VENDOR := OpenWrt
   DEVICE_MODEL := One
