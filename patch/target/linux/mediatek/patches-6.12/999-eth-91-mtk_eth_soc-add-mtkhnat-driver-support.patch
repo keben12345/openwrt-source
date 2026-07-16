@@ -61,7 +61,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  static int mtk_msg_level = -1;
  module_param_named(msg_level, mtk_msg_level, int, 0);
  MODULE_PARM_DESC(msg_level, "Message level (-1=defaults,0=none,...,16=all)");
-@@ -2914,6 +2918,31 @@ static int mtk_poll_rx(struct napi_struc
+@@ -2937,6 +2941,31 @@ static int mtk_poll_rx(struct napi_struc
  
  			skb_reserve(skb, NET_SKB_PAD + NET_IP_ALIGN);
  			skb_put(skb, pktlen);
@@ -93,7 +93,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  		}
  
  		skb->dev = netdev;
-@@ -2956,8 +2985,10 @@ static int mtk_poll_rx(struct napi_struc
+@@ -2979,8 +3008,10 @@ static int mtk_poll_rx(struct napi_struc
  				skb_dst_set_noref(skb, &eth->dsa_meta[port]->dst);
  		}
  
@@ -104,7 +104,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  
  		if (eth->hwlro && eth->debugfs->hwlro_stats.ebl &&
  		    IS_HW_LRO_RING(ring->ring_no)) {
-@@ -4644,6 +4675,7 @@ static int mtk_open(struct net_device *d
+@@ -4667,6 +4698,7 @@ static int mtk_open(struct net_device *d
  		if (err)
  			return err;
  
@@ -112,7 +112,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  		for (i = 0; i < ARRAY_SIZE(eth->ppe); i++)
  			mtk_ppe_start(eth->ppe[i]);
  
-@@ -4651,6 +4683,7 @@ static int mtk_open(struct net_device *d
+@@ -4674,6 +4706,7 @@ static int mtk_open(struct net_device *d
  		if (err)
  			netdev_err(dev, "%s: could not start ppe roaming work: %d\n",
  				   __func__, err);
@@ -120,7 +120,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  
  		for (i = 0; i < MTK_MAX_DEVS; i++) {
  			if (!eth->netdev[i])
-@@ -4824,10 +4857,12 @@ static int mtk_stop(struct net_device *d
+@@ -4847,10 +4880,12 @@ static int mtk_stop(struct net_device *d
  
  	mtk_dma_free(eth);
  
@@ -133,7 +133,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  
  	return 0;
  }
-@@ -7341,6 +7376,7 @@ static int mtk_probe(struct platform_dev
+@@ -7364,6 +7399,7 @@ static int mtk_probe(struct platform_dev
  		};
  	}
  
@@ -141,7 +141,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  	if (eth->soc->offload_version) {
  		u8 ppe_num = eth->soc->ppe_num;
  
-@@ -7365,6 +7401,7 @@ static int mtk_probe(struct platform_dev
+@@ -7388,6 +7424,7 @@ static int mtk_probe(struct platform_dev
  		if (err)
  			goto err_deinit_ppe;
  	}
@@ -149,7 +149,7 @@ Subject: [PATCH] net: ethernet: mtk_eth_soc: add mtkhnat driver support
  
  	mtk_eth_debugfs_init(eth);
  
-@@ -7422,7 +7459,9 @@ err_unreg_netdev:
+@@ -7445,7 +7482,9 @@ err_unreg_netdev:
  	free_netdev(eth->dummy_dev);
  err_deinit_ppe:
  	mtk_napi_del(eth);
