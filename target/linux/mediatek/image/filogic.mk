@@ -283,6 +283,33 @@ define Device/qihoo_360t7
 endef
 TARGET_DEVICES += qihoo_360t7
 
+define Device/qihoo_360t7-nand
+  DEVICE_VENDOR := Qihoo
+  DEVICE_MODEL := 360T7 (NAND)
+
+  DEVICE_DTS := mt7981b-qihoo-360t7-ubi
+  DEVICE_DTS_DIR := ../dts
+
+  DEVICE_PACKAGES := kmod-usb3
+
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 116736k
+
+  KERNEL_IN_UBI := 1
+
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+
+  KERNEL := kernel-bin | lzma | \
+        fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
+
+  KERNEL_INITRAMFS := kernel-bin | lzma | \
+        fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd
+endef
+
+TARGET_DEVICES += qihoo_360t7-nand
+
 define Device/openwrt_one
   DEVICE_VENDOR := OpenWrt
   DEVICE_MODEL := One
